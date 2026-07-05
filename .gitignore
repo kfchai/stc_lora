@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.cache/
+paper/latex/*.aux
+paper/latex/*.log
+paper/latex/*.out
+paper/latex/*.bbl
+paper/latex/*.blg
+paper/latex/*.fls
+paper/latex/*.fdb_latexmk
+paper/latex/main.pdf

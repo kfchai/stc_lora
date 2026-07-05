@@ -1,0 +1,14 @@
+{
+  "summary": {
+    "avg_final_ppl": 49.933967453391055,
+    "avg_learned_ppl": 43.1927729885772,
+    "backward_transfer": 10.11179169722078,
+    "forgetting_pct": 23.41084166995936,
+    "per_task_forgetting": [
+      13.337122051293875,
+      6.886461343147687
+    ],
+    "forward_transfer": -5.52924590311512
+  },
+  "projections": 281
+}

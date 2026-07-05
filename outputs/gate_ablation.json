@@ -1,0 +1,20 @@
+{
+  "gated": {
+    "forgetting_pct": 4.503270927778502,
+    "final_ppl": 47.337623505290765,
+    "learned_ppl": 45.957884795285416,
+    "captures": 462
+  },
+  "const-0.5": {
+    "forgetting_pct": 4.506698325437054,
+    "final_ppl": 48.99565885819889,
+    "learned_ppl": 47.56653859271473,
+    "captures": 480
+  },
+  "const-1.0": {
+    "forgetting_pct": 5.0068221119546505,
+    "final_ppl": 47.65143121450817,
+    "learned_ppl": 46.11225870441848,
+    "captures": 1079
+  }
+}
