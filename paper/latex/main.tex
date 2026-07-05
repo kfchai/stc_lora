@@ -79,7 +79,7 @@ with $A_{\mathrm{tag}}\in\mathbb{R}^{r\times d_i}$, $B_{\mathrm{tag}}\in\mathbb{
 
 \textbf{Metrics.} Forgetting is backward transfer measured as the \% perplexity increase on earlier domains after the stream completes (negative = positive backward transfer); quality is final average perplexity against a \emph{joint} (all-domains-at-once) ceiling. \S\ref{sec:downstream} adds task metrics.
 
-\textbf{Protocol.} Every method runs on the \emph{same} adapter substrate (rank 8 on attention projections), so differences are algorithmic. Baselines: naive LoRA; online EWC \citep{schwarz2018progress} with tuned $\lambda$; ER with the same reservoir and a replay budget matched to \stc{}'s consolidation compute; A-GEM \citep{chaudhry2019efficient}. Results are mean $\pm$ std over 4 (seed, task-order) replicates; task orders are permutations of the three domains.
+\textbf{Protocol.} Every method runs on the \emph{same} adapter substrate (rank 8 on attention projections), so differences are algorithmic. Baselines: naive LoRA; online EWC \citep{schwarz2018progress} with tuned $\lambda$; ER with the same reservoir and a replay budget matched to \stc{}'s consolidation compute; A-GEM \citep{chaudhry2019efficient}; O-LoRA \citep{wang2023orthogonal} with oracle boundaries. Results are mean $\pm$ std over 4 (seed, task-order) replicates; task orders are permutations of the three domains.
 
 \textbf{Models.} Qwen2.5 at 0.5B/1.5B/7B \citep{qwen2025} and Llama-3.2-1B \citep{grattafiori2024llama}.
 
@@ -88,7 +88,7 @@ with $A_{\mathrm{tag}}\in\mathbb{R}^{r\times d_i}$, $B_{\mathrm{tag}}\in\mathbb{
 \subsection{Main comparison}
 \begin{table}[t]
 \centering\small
-\caption{Domain-incremental CL at 0.5B: mean $\pm$ std over 4 (seed, order) replicates. Joint ceiling: 45.0 ppl. $^{\dagger}$A-GEM: single run (seed 0, order A).}
+\caption{Domain-incremental CL at 0.5B: mean $\pm$ std over 4 (seed, order) replicates. Joint ceiling: 45.0 ppl. $^{\dagger}$A-GEM: single run (seed 0, order A). $^{\ddagger}$O-LoRA \citep{wang2023orthogonal} adapted to this setting, single run, with two concessions in its favor: oracle task boundaries and a fresh rank-8 subspace per domain (best of $\lambda\in\{0.1,0.5,2\}$).}
 \label{tab:main}
 \begin{tabular}{lcc}
 \toprule
@@ -96,6 +96,7 @@ method & forgetting \% $\downarrow$ & final ppl $\downarrow$ \\
 \midrule
 naive LoRA & $+39.2 \pm 9.1$ & $54.7 \pm 2.6$ \\
 A-GEM$^{\dagger}$ & $+23.4$ & $49.9$ \\
+O-LoRA$^{\ddagger}$ (oracle boundaries) & $+32.9$ & $53.5$ \\
 online EWC & $+21.3 \pm 3.5$ & $50.0 \pm 1.1$ \\
 ER (matched budget) & $+11.4 \pm 4.4$ & $47.8 \pm 1.0$ \\
 \midrule
@@ -106,6 +107,8 @@ ER (matched budget) & $+11.4 \pm 4.4$ & $47.8 \pm 1.0$ \\
 \end{table}
 
 Table~\ref{tab:main}: \stc{} forgets $3$--$7\times$ less than ER at matched replay budget, with an order-of-magnitude smaller variance ($\pm0.6$--$0.7$ vs.\ naive $\pm9.1$) --- forgetting resistance is \emph{order-robust}, not an artifact of a favorable task order. The slow-store variant matches ER's final perplexity while halving its forgetting.
+
+The O-LoRA row is diagnostic. Its orthogonality penalty fully succeeds (cross-subspace energy ${\approx}0$; random rank-8 subspaces in $d{=}896$ are near-orthogonal even at initialization), yet forgetting remains near-naive despite oracle boundaries. In domain-incremental language modeling the domains share one text manifold, so a new task's delta perturbs earlier tasks' \emph{function} regardless of which input directions it spans: spatial subspace separation addresses the wrong axis in this regime, while temporal separation (decay and gated consolidation) addresses the operative one. We note O-LoRA was designed for task-incremental instruction tuning, a different regime; we report it as adapted.
 
 \subsection{Scale and family generality}
 \begin{table}[t]

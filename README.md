@@ -67,6 +67,7 @@ Each experiment is one command; each writes a JSON artifact to `outputs/`
 | gate ablation (§5.5) | `python -m experiments.gate_ablation` | `outputs/gate_ablation.json` |
 | downstream forgetting (§5.4) | `python -m experiments.downstream_forgetting` | `outputs/downstream_<model>.json` |
 | A-GEM baseline | `python -m experiments.agem_baseline` | `outputs/agem_baseline.json` |
+| O-LoRA baseline | `python -m experiments.olora_baseline` | `outputs/olora_baseline.json` |
 | slow-store sweep (§5.6) | `python -m experiments.perm_plastic_sweep` / `perm_plastic_confirm` | `outputs/perm_plastic_confirm.json` |
 | figures | `python paper/make_figures.py` | `paper/latex/figs/` |
 
